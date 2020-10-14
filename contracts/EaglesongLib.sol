@@ -183,28 +183,22 @@ library EaglesongLib {
                         integer = (integer << 8) ^ delimiter;
                     }
                 }
-//                console.log("i: %d, j: %d, integer: %d", i, j, integer);
                 state[j] = state[j] ^ integer;
             }
             EaglesongPermutation(state);
         }
 
-//        for (uint i=0; i<16; i++) {
-//            console.log(state[i]);
-//        }
-
         // squeezing
         bytes memory output_bytes = new bytes(num_output_bytes);
-//        console.log("output_bytes");
-//        console.logBytes(output_bytes);
         for (uint i=0; i<num_output_bytes/(rate/8); i++) {
             for (uint j=0; j<rate/32; j++) {
                 for (uint k=0; k<4; k++) {
                     output_bytes[i*rate/8 + j*4 + k] = byte(uint8((state[j] >> (8*k)) & 0xff));
                 }
             }
-            console.log("mark i: %d", i);
-            console.logBytes(output_bytes);
+            // this condition is not in the python implementation.
+            // It is not used in the final loop and may trigger unknown error in solidity,
+            // so we add it here.
             if (i != num_output_bytes/(rate/8) - 1) {
                 EaglesongPermutation(state);
             }
