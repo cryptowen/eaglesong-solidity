@@ -9,7 +9,9 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c7b5bc76-dfdb-469e-a015-b93eba0f9f1e" name="Default Changelist" comment="" />
+    <list default="true" id="c7b5bc76-dfdb-469e-a015-b93eba0f9f1e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/contracts/EaglesongLib.sol" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/EaglesongLib.sol" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -49,7 +51,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1602681860961</updated>
-      <workItem from="1602681862231" duration="17000" />
+      <workItem from="1602681862231" duration="149000" />
     </task>
     <servers />
   </component>
