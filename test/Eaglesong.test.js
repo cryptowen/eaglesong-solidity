@@ -1,16 +1,19 @@
+const EaglesongLib = artifacts.require("EaglesongLib.sol");
 const TestEaglesong = artifacts.require('TestEaglesong.sol');
 
 contract('TestEaglesong', function (accounts) {
-    let contract;
     before(async () => {
+        const lib = await EaglesongLib.new();
+        TestEaglesong.link(lib);
         contract = await TestEaglesong.new();
     });
 
     it('test eaglesong hash', async () => {
-        let input = Buffer.from('hello');
-        let ret = await contract.hash.call(input);
-        assert.equal(ret, '0xcb38467495f1dfc219f6eb9c6a5fa54e01a6019a661e07a1eaeaf3784b12a6d1', 'hash mismatch');
-        let gas = await contract.hash.estimateGas(input);
-        console.log('Gas usage', gas);
+        let input = Buffer.from('');
+        let ret = await contract.eaglesong_hash(input);
+        console.log(ret.logs);
+        ret = await contract.get.call();
+        console.log(ret);
+        expect(ret).to.equal("0x9e4452fc7aed93d7240b7b55263792befd1be09252b456401122ba71a56f62a0");
     });
 });

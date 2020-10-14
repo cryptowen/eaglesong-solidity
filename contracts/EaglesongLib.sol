@@ -1,4 +1,7 @@
+// SPDX-License-Identifier: MIT
 pragma solidity >=0.4.25 <0.7.0;
+
+import "@nomiclabs/buidler/console.sol";
 
 library EaglesongLib {
     uint constant DELIMITER = 0x06;
@@ -9,9 +12,6 @@ library EaglesongLib {
         uint8[3][16] coefficients;
         uint32[688] injection_constants;
     }
-
-    event DEBUG(bytes data);
-    event STATE(uint[16] state);
 
     function EaglesongHash(bytes memory data) public returns (bytes memory) {
         return EaglesongSponge(data, OUTPUT_LEN, DELIMITER);
@@ -141,7 +141,9 @@ library EaglesongLib {
             }
             _new[j] = _new[j] & 0xffffffff;
         }
-        state = _new;
+        for (uint j=0; j<16; j++) {
+            state[j] = _new[j];
+        }
 
         // circulant multiplication
         for (uint i=0; i<16; i++) {
@@ -181,20 +183,31 @@ library EaglesongLib {
                         integer = (integer << 8) ^ delimiter;
                     }
                 }
+//                console.log("i: %d, j: %d, integer: %d", i, j, integer);
                 state[j] = state[j] ^ integer;
             }
             EaglesongPermutation(state);
         }
 
+//        for (uint i=0; i<16; i++) {
+//            console.log(state[i]);
+//        }
+
         // squeezing
         bytes memory output_bytes = new bytes(num_output_bytes);
+//        console.log("output_bytes");
+//        console.logBytes(output_bytes);
         for (uint i=0; i<num_output_bytes/(rate/8); i++) {
             for (uint j=0; j<rate/32; j++) {
-                for (uint k=0; j<4; k++) {
+                for (uint k=0; k<4; k++) {
                     output_bytes[i*rate/8 + j*4 + k] = byte(uint8((state[j] >> (8*k)) & 0xff));
                 }
             }
-            EaglesongPermutation(state);
+            console.log("mark i: %d", i);
+            console.logBytes(output_bytes);
+            if (i != num_output_bytes/(rate/8) - 1) {
+                EaglesongPermutation(state);
+            }
         }
 
         return output_bytes;
