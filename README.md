@@ -6,7 +6,7 @@ A solidity library of [Eaglesong](https://github.com/nervosnetwork/rfcs/blob/mas
 
 Run the tests in your own env. 
 
-```
+```bash
 git clone https://github.com/huwenchao/eaglesong-solidity.git
 cd eaglesong-solidity
 yarn
